@@ -1,5 +1,5 @@
-easy-mysql
-==========
+easy-mysql-promise
+==================
 
 A simple nodejs mysql-promise implementation to make sql easier
 
@@ -13,7 +13,7 @@ A simple nodejs mysql-promise implementation to make sql easier
 This module is installed via npm:
 
 ```bash
-$ npm install easy-mysql
+$ npm install easy-mysql-promise
 ```
 
 ## Example Usage
@@ -21,7 +21,7 @@ $ npm install easy-mysql
 load and iniciate
 
 ```javascript
-var db = require('easy-mysql')(
+var db = require('easy-mysql-promise')(
 	{
 		host        : MYSQL_HOST,
 		port        : MYSQL_PORT,
