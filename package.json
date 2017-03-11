@@ -1,0 +1,40 @@
+{
+  "name": "easy-mysql",
+  "version": "0.1.0",
+  "description": "A simple nodejs mysql-promise implementation to make sql easier",
+  "keywords": [
+    "bluebird",
+    "mysql",
+    "easy",
+    "helper"
+  ],
+  "homepage": "https://github.com/tostegroo/node-easy-mysql",
+  "author": "Fabio Toste <tostegroo@gmail.com> (http://fabiottoste.com)",
+  "contributors": [],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tostegroo/node-easy-mysql"
+  },
+  "scripts": {
+      "release": "npm test && release-it -n -i patch",
+      "release:major": "npm test && release-it -n -i major",
+      "release:minor": "npm test && release-it -n -i minor"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/tostegroo/node-easy-mysql/blob/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/tostegroo/node-easy-mysql/issues",
+    "email": "tostegroo@gmail.com"
+  },
+  "dependencies": {
+      "bluebird": "^3.4.1", 
+      "mysql-promise": "^3.0.0",
+      "safe-eval": "^0.3.0"
+  },
+  "devDependencies": {}
+}
