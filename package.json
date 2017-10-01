@@ -1,6 +1,6 @@
 {
   "name": "easy-mysql-promise",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple nodejs mysql-promise implementation to make sql easier",
   "keywords": [
     "bluebird",
@@ -45,6 +45,9 @@
     "js-lint": "eslint './**/*.js' -c ./.eslintrc --quiet --ignore-pattern .gitignore"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

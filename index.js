@@ -1,7 +1,7 @@
 'use strict';
 
 var promise 	= require('bluebird');
-var db 			= require('mysql-promise')();
+var db 				= require('mysql-promise')();
 
 /**
  * Export funciton
@@ -133,7 +133,7 @@ EasyMySQL.prototype.query = function query(sql, errorcallback)
 EasyMySQL.prototype.getUpdateQueryDataset = function getUpdateQueryDataset(table, dataset, data, where)
 {
 	if(typeof(data)=='string')
-		data = JSON.parse(data);
+		data = JSONparse(data);
 
 	var values = '';
 	var first = 0;
@@ -191,7 +191,7 @@ EasyMySQL.prototype.updateTableDataset = function updateTableDataset(table, data
 EasyMySQL.prototype.getUpdateQuery = function getUpdateQuery(table, data, where)
 {
 	if(typeof(data)=='string')
-		data = JSON.parse(data);
+		data = JSONparse(data);
 
 	var values = '';
 	var first = 0;
@@ -246,7 +246,7 @@ EasyMySQL.prototype.updateTable = function updateTable(table, data, where, error
 EasyMySQL.prototype.getInserQueryDataset = function getInserQueryDataset(table, dataset, data)
 {
 	if(typeof(data)=='string')
-		data = JSON.parse(data);
+		data = JSONparse(data);
 
 	var columns = '';
 	var values = '';
@@ -304,7 +304,7 @@ EasyMySQL.prototype.addToTableDataset = function addToTableDataset(table, datase
 EasyMySQL.prototype.getInserQuery = function getInserQuery(table, data)
 {
 	if(typeof(data)=='string')
-		data = JSON.parse(data);
+		data = JSONparse(data);
 
 	var columns = '';
 	var values = '';
@@ -428,32 +428,49 @@ EasyMySQL.prototype.doTransaction = function doTransaction(querylist, errorcallb
  */
 function getStringValue(value)
 {
-    var return_value = '';
-    switch(typeof(value))
-    {
-        case 'string':
-            return_value = "'" + value + "'";
-            break;
+	var return_value = '';
+	switch(typeof(value))
+	{
+		case 'string':
+			return_value = "'" + value + "'";
+			break;
 
-        case 'number':
-            return_value = value;
-            break;
+		case 'number':
+			return_value = value;
+			break;
 
-        case 'object':
+		case 'object':
 
-            if(value==null)
-                return_value = value;
-            else
-            {
-                var valuestring = JSON.stringify(value);
-                return_value = "'" + valuestring + "'";
-            }
-            break;
+			if(value==null)
+					return_value = value;
+			else
+			{
+					var valuestring = JSON.stringify(value);
+					return_value = "'" + valuestring + "'";
+			}
+			break;
 
-        default:
-            return_value = "'" + value + "'";
-            break;
-    }
+		default:
+			return_value = "'" + value + "'";
+			break;
+	}
+  return return_value;
+}
 
-    return return_value;
+/**
+ * A private function get a Json object
+ * @param  {String} string - The given string
+ * @return {JSON Object}
+ */
+function JSONparse(string)
+{
+	string = string.replace(/:\s*"([^"]*)"/g, function(match, p1) {
+		return ': "' + p1.replace(/:/g, '@colon@') + '"';
+	}).replace(/:\s*'([^']*)'/g, function(match, p1) {
+		return ': "' + p1.replace(/:/g, '@colon@') + '"';
+	}).replace(/(['"])?([a-z0-9A-Z_]+)(['"])?\s*:/g, '"$2": ');
+
+	string = string.replace(/@colon@/g, ':');
+	
+	return JSON.parse(string);
 }
