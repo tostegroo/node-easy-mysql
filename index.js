@@ -1,7 +1,6 @@
 'use strict';
 
 var promise 	= require('bluebird');
-var safeEval 	= require('safe-eval');
 var db 			= require('mysql-promise')();
 
 /**
@@ -16,7 +15,7 @@ var db 			= require('mysql-promise')();
 	 error_debug	: {Bollean} "a debug flag to log mysql errors"
  }
 */
-exports = module.exports = function(config)
+module.exports = function(config)
 {
 	if(config)
 		return new EasyMySQL(config);
@@ -44,7 +43,7 @@ EasyMySQL.prototype.end = function()
 {
 	if(db)
 	{
-		return new Promise(function (resolve, reject)
+		return new Promise(function (resolve)
 		{
 			db.end().then(function(result)
 			{
@@ -83,7 +82,7 @@ EasyMySQL.prototype.query = function query(sql, errorcallback)
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		if(db)
 		{
@@ -134,7 +133,7 @@ EasyMySQL.prototype.query = function query(sql, errorcallback)
 EasyMySQL.prototype.getUpdateQueryDataset = function getUpdateQueryDataset(table, dataset, data, where)
 {
 	if(typeof(data)=='string')
-		data = safeEval(data);
+		data = JSON.parse(data);
 
 	var values = '';
 	var first = 0;
@@ -170,7 +169,7 @@ EasyMySQL.prototype.updateTableDataset = function updateTableDataset(table, data
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var sql = self.getUpdateQueryDataset(table, dataset, data, where);
 
@@ -192,7 +191,7 @@ EasyMySQL.prototype.updateTableDataset = function updateTableDataset(table, data
 EasyMySQL.prototype.getUpdateQuery = function getUpdateQuery(table, data, where)
 {
 	if(typeof(data)=='string')
-		data = safeEval(data);
+		data = JSON.parse(data);
 
 	var values = '';
 	var first = 0;
@@ -225,7 +224,7 @@ EasyMySQL.prototype.updateTable = function updateTable(table, data, where, error
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var sql = self.getUpdateQuery(table, data, where);
 
@@ -247,7 +246,7 @@ EasyMySQL.prototype.updateTable = function updateTable(table, data, where, error
 EasyMySQL.prototype.getInserQueryDataset = function getInserQueryDataset(table, dataset, data)
 {
 	if(typeof(data)=='string')
-		data = safeEval(data);
+		data = JSON.parse(data);
 
 	var columns = '';
 	var values = '';
@@ -284,7 +283,7 @@ EasyMySQL.prototype.addToTableDataset = function addToTableDataset(table, datase
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var sql = self.getInserQueryDataset(table, dataset, data);
 
@@ -305,7 +304,7 @@ EasyMySQL.prototype.addToTableDataset = function addToTableDataset(table, datase
 EasyMySQL.prototype.getInserQuery = function getInserQuery(table, data)
 {
 	if(typeof(data)=='string')
-		data = safeEval(data);
+		data = JSON.parse(data);
 
 	var columns = '';
 	var values = '';
@@ -338,7 +337,7 @@ EasyMySQL.prototype.addToTable = function addToTable(table, data, errorcallback)
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var sql = self.getInserQuery(table, data);
 
@@ -374,7 +373,7 @@ EasyMySQL.prototype.deleteFromTable = function deleteFromTable(table, where, err
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var sql = self.getDeleteQuery(table, where);
 
@@ -396,7 +395,7 @@ EasyMySQL.prototype.doTransaction = function doTransaction(querylist, errorcallb
 {
 	var self = this;
 
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		if(typeof(querylist)=='object')
 		{

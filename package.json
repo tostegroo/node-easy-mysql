@@ -16,8 +16,6 @@
     "type": "git",
     "url": "https://github.com/tostegroo/node-easy-mysql-promise"
   },
-  "scripts": {
-  },
   "licenses": [
     {
       "type": "MIT",
@@ -29,9 +27,24 @@
     "email": "tostegroo@gmail.com"
   },
   "dependencies": {
-      "bluebird": "^3.4.1",
-      "mysql-promise": "^3.0.0",
-      "safe-eval": "^0.3.0"
+    "bluebird": "^3.4.1",
+    "mysql-promise": "^3.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.3",
+    "eslint": "4.6.1",
+    "eslint-plugin-node": "5.1.1",
+    "pre-push": "^0.1.1"
+  },
+  "pre-push": [
+    "js-lint"
+  ],
+  "scripts": {
+    "precommit": "lint-staged",
+    "js-lint": "eslint './**/*.js' -c ./.eslintrc --quiet --ignore-pattern .gitignore"
+  },
+  "lint-staged": {
+    "*.js": ["eslint --fix", "git add"]
+  }
 }
